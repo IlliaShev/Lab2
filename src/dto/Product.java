@@ -1,3 +1,5 @@
+package dto;
+
 /**
  * Class product with all its properties
  */
