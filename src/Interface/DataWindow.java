@@ -5,6 +5,9 @@ import utils.DateBase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 /** Frame to work with database */
 public class DataWindow extends JFrame {
@@ -34,9 +37,12 @@ public class DataWindow extends JFrame {
         public DataWindow(){
       //  this.db = db;
         setTitle("DataBase");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
         init();
+        initMenuBar(this);
+        setJMenuBar(menuBar);
         BorderLayout layout = new BorderLayout();
         layout.setVgap(5);
         setLayout(layout);
@@ -111,6 +117,94 @@ public class DataWindow extends JFrame {
             temp.setLayout(new FlowLayout(FlowLayout.LEFT));
             temp.add(removeButton);
             buttonPanel.add(temp);
+        }
+    }
+
+    private void initMenuBar(JFrame frame){
+        if(menuBar == null){
+            menuBar = new JMenuBar();
+            JMenu file = new JMenu("File");
+            menuBar.add(file);
+            {
+                JMenuItem open = new JMenuItem("Open");
+                open.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem save = new JMenuItem("Save");
+                save.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem close = new JMenuItem("Close");
+                close.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem exit = new JMenuItem("Exit");
+                exit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                    }
+                });
+                file.add(open);
+                file.add(save);
+                file.add(close);
+                file.add(exit);
+            }
+            JMenu edit = new JMenu("Edit");
+            {
+                JMenu group = new JMenu("Group");
+                JMenuItem add = new JMenuItem("Add");
+                add.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem editItem = new JMenuItem("Edit");
+                edit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem remove = new JMenuItem("Remove");
+                remove.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                group.add(add);
+                group.add(editItem);
+                group.add(remove);
+                edit.add(group);
+            }
+            {
+                JMenu product = new JMenu("Product");
+                JMenuItem add = new JMenuItem("Add");
+                add.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem editItem = new JMenuItem("Edit");
+                edit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                JMenuItem remove = new JMenuItem("Remove");
+                remove.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) { }
+                });
+                product.add(add);
+                product.add(editItem);
+                product.add(remove);
+                edit.add(product);
+            }
+            menuBar.add(edit);
+            JMenuItem info = new JMenuItem("Info");
+            info.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) { }
+            });
+            menuBar.add(info);
         }
     }
 
