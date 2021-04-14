@@ -1,6 +1,8 @@
 package dto;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HandlerGroupOfProducts {
     private List<GroupOfProducts> groups;
@@ -29,6 +31,25 @@ public class HandlerGroupOfProducts {
      * */
     public void deleteGroup(GroupOfProducts group){
         groups.remove(group);
+    }
+
+    /**
+     * Find products that matches string pattern
+     * @param pat - string pattern
+     * @return list of products
+     * */
+    public List<Product> findProduct(String pat){
+        Pattern pattern = Pattern.compile(pat);
+        List<Product> resList = new LinkedList<>();
+        for(GroupOfProducts group: groups){
+            for(Product product: group.getListOfProducts()){
+                Matcher mch = pattern.matcher(product.getName());
+                if(mch.matches())
+                    resList.add(product);
+
+            }
+        }
+        return resList;
     }
 
     /**
