@@ -1,17 +1,20 @@
 package Interface;
 
+import dto.GroupOfProducts;
 import dto.Product;
 import utils.DateBase;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.util.List;
 
 /** Frame to work with database */
 public class DataWindow extends JFrame {
 
+    /** Constants for window size */
     private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
 
@@ -22,20 +25,24 @@ public class DataWindow extends JFrame {
     private JTextField searchField;
     private JPanel infoPanel;
     private JList<Product> productList;
-    private JList<String> groupList;
+    private JList<GroupOfProducts> groupList;
     private JScrollPane productScroll;
+    private DefaultListModel<Product> productModel;
+    private DefaultListModel<GroupOfProducts> groupModel;
     private JScrollPane groupScroll;
     private JTextArea infoTextArea;
     private JPanel buttonPanel;
     private JButton addButton;
     private JButton removeButton;
+    private boolean isSearching = false;
+    private List<Product> searchResults;
 
+    /** Menu bar field */
     private JMenuBar menuBar;
 
     /** Constructor with DateBase param */
-    //public DataWindow(DateBase db){
-        public DataWindow(){
-      //  this.db = db;
+    public DataWindow(DateBase db){
+        this.db = db;
         setTitle("DataBase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -59,17 +66,71 @@ public class DataWindow extends JFrame {
             searchField.setPreferredSize(new Dimension(7*WIDTH/8, HEIGHT/8));
             searchField.setSize(new Dimension(7*WIDTH/8, HEIGHT/8));
             searchField.setFont(new Font("Calibri", Font.PLAIN, 20));
+            searchField.addFocusListener(new FocusListener() {
+                private boolean isUntouched = true;
+
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if(isUntouched){
+                        searchField.setText("");
+                        isUntouched = false;
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if(searchField.getText() == null||searchField.getText().equals("")||isUntouched){
+                        isUntouched = true;
+                        searchField.setText("Search");
+                    }
+                }
+            });
+            searchField.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(searchField.getText()!= null&&!searchField.getText().equals("")) {
+                        isSearching = true;
+                        searchResults = db.getGroups().findProduct(searchField.getText());
+                        if (searchResults != null && searchResults.size() != 0) {
+                            refreshProductList();
+                        }else{
+                            productModel.clear();
+                        }
+                    }else{
+                        searchResults = null;
+                        isSearching = false;
+                        refreshGroupList();
+                    }
+                }
+            });
         }
         if(infoTextArea == null){
             infoTextArea = new JTextArea("");
             infoTextArea.setPreferredSize(new Dimension(7*WIDTH/24, 6*HEIGHT/8));
             infoTextArea.setEditable(false);
+            infoTextArea.setWrapStyleWord(true);
+            infoTextArea.setLineWrap(true);
         }
         if(productList == null){
-            productList = new JList<>();
+            productModel = new DefaultListModel<Product>();
+            productList = new JList<>(productModel);
             //productList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+            productList.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    Product p = productList.getSelectedValue();
+                    if(p != null) {
+                        infoTextArea.setText("");
+                        infoTextArea.append("Product name: " + p.getName() + "\n" + "Product producer: " + p.getProducer() + "\n" +
+                                "Product description: " + p.getDescription() + "\n" + "Product price: " + p.getPrice()+"\n"+
+                                "Product amount in stock: "+groupList.getSelectedValue().getValue(p)+"\n"+"Total value of product in stock: "+
+                                ((double)(Math.round(p.getPrice()*groupList.getSelectedValue().getValue(p)*100))/100));
+                    }else{
+                        infoTextArea.setText("");
+                    }
+                }
+            });
         }
         if(productScroll == null){
             productScroll = new JScrollPane(productList);
@@ -77,10 +138,32 @@ public class DataWindow extends JFrame {
             productScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
         if(groupList == null){
-            groupList = new JList<>();
+            groupModel = new DefaultListModel<GroupOfProducts>();
+            groupList = new JList<>(groupModel);
          //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+            for(GroupOfProducts g: db.getGroups().getListOfGroups()){
+                groupModel.add(0, g);
+            }
+            groupList.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if(!isSearching){
+                        refreshProductList();
+                    }else{
+                        productModel.clear();
+                        if(groupList.getSelectedValue()!= null) {
+                            for (Product p : groupList.getSelectedValue().getListOfProducts()) {
+                                if (searchResults.contains(p)) {
+                                    productModel.add(0, p);
+                                }
+                            }
+                        }else{
+                            productModel.clear();
+                        }
+                    }
+                }
+            });
         }
         if(groupScroll == null){
             groupScroll = new JScrollPane(groupList);
@@ -120,6 +203,36 @@ public class DataWindow extends JFrame {
         }
     }
 
+    private void refreshProductList(){
+        productModel.clear();
+        if(groupList.getSelectedValue()!= null) {
+            if(!isSearching) {
+                for (Product p : groupList.getSelectedValue().getListOfProducts()) {
+                    productModel.add(0, p);
+                }
+            }else{
+                for (Product p : groupList.getSelectedValue().getListOfProducts()) {
+                    if (searchResults.contains(p)) {
+                        productModel.add(0, p);
+                        System.out.println("test");
+                    }
+                }
+            }
+        }
+    }
+
+    private void refreshGroupList(){
+        groupModel.clear();
+        for(GroupOfProducts g:db.getGroups().getListOfGroups()){
+            groupModel.add(0, g);
+        }
+        groupList.setSelectedIndex(0);
+        groupList.grabFocus();
+    }
+    /**
+     * Initialization of menubar with listeners
+     *  @param frame - main frame
+     */
     private void initMenuBar(JFrame frame){
         if(menuBar == null){
             menuBar = new JMenuBar();
@@ -210,7 +323,8 @@ public class DataWindow extends JFrame {
 
 
     public static void main(String[] args){
-        DataWindow ui = new DataWindow();
+        DateBase test = new DateBase();
+        DataWindow ui = new DataWindow(test);
         ui.setVisible(true);
     }
 }

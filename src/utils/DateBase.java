@@ -115,6 +115,11 @@ public class DateBase {
         group[3].addProduct(products[18], 10);
         group[3].addProduct(products[19], 10);
 
+        groups.addGroup(group[0]);
+        groups.addGroup(group[1]);
+        groups.addGroup(group[2]);
+        groups.addGroup(group[3]);
+
     }
 
     public HandlerGroupOfProducts getGroups() {
