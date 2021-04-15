@@ -47,7 +47,7 @@ public class DataWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
-        init();
+        init(this);
         initMenuBar(this);
         setJMenuBar(menuBar);
         BorderLayout layout = new BorderLayout();
@@ -60,7 +60,7 @@ public class DataWindow extends JFrame {
     }
 
     /** Initialization of visual components */
-    private void init(){
+    private void init(JFrame frame){
         if(searchField == null){
             searchField = new JTextField("Search");
             searchField.setPreferredSize(new Dimension(7*WIDTH/8, HEIGHT/8));
@@ -95,7 +95,7 @@ public class DataWindow extends JFrame {
                             groupModel.clear();
                             for(Product p: searchResults){
                                 if(!groupModel.contains(p.getGroup()))
-                                    groupModel.add(0, p.getGroup());
+                                    groupModel.addElement(p.getGroup());
                             }
                         }else{
                             groupModel.clear();
@@ -115,6 +115,7 @@ public class DataWindow extends JFrame {
             infoTextArea.setEditable(false);
             infoTextArea.setWrapStyleWord(true);
             infoTextArea.setLineWrap(true);
+            infoTextArea.setFocusable(false);
         }
         if(productList == null){
             productModel = new DefaultListModel<Product>();
@@ -148,7 +149,7 @@ public class DataWindow extends JFrame {
          //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             for(GroupOfProducts g: db.getGroups().getListOfGroups()){
-                groupModel.add(0, g);
+                groupModel.addElement(g);
             }
             groupList.addListSelectionListener(new ListSelectionListener() {
                 @Override
@@ -160,7 +161,7 @@ public class DataWindow extends JFrame {
                         if(groupList.getSelectedValue()!= null) {
                             for (Product p : groupList.getSelectedValue().getListOfProducts()) {
                                 if (searchResults.contains(p)) {
-                                    productModel.add(0, p);
+                                    productModel.addElement(p);
                                 }
                             }
                         }else{
@@ -188,12 +189,28 @@ public class DataWindow extends JFrame {
         if(addButton == null){
             addButton = new JButton("Add");
             addButton.setPreferredSize(new Dimension(WIDTH/5, HEIGHT/ 10));
-
+            addButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ChangeValueWindow cvw = new ChangeValueWindow(frame, db, true);
+                    cvw.setVisible(true);
+                    groupList.clearSelection();
+                    refreshProductList();
+                }
+            });
         }
         if(removeButton == null){
             removeButton = new JButton("Remove");
             removeButton.setPreferredSize(new Dimension(WIDTH/5, HEIGHT/ 10));
-
+            removeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ChangeValueWindow cvw = new ChangeValueWindow(frame, db, false);
+                    cvw.setVisible(true);
+                    groupList.clearSelection();
+                    refreshProductList();
+                }
+            });
         }
         if(buttonPanel == null){
             buttonPanel = new JPanel(new GridLayout(1, 2));
@@ -209,16 +226,17 @@ public class DataWindow extends JFrame {
     }
 
     private void refreshProductList(){
+        infoTextArea.setText("");
         productModel.clear();
         if(groupList.getSelectedValue()!= null) {
             if(!isSearching) {
                 for (Product p : groupList.getSelectedValue().getListOfProducts()) {
-                    productModel.add(0, p);
+                    productModel.addElement(p);
                 }
             }else{
                 for (Product p : groupList.getSelectedValue().getListOfProducts()) {
                     if (searchResults.contains(p)) {
-                        productModel.add(0, p);
+                        productModel.addElement(p);
                     }
                 }
             }
@@ -228,7 +246,7 @@ public class DataWindow extends JFrame {
     private void refreshGroupList(){
         groupModel.clear();
         for(GroupOfProducts g:db.getGroups().getListOfGroups()){
-            groupModel.add(0, g);
+            groupModel.addElement(g);
         }
         groupList.grabFocus();
     }
