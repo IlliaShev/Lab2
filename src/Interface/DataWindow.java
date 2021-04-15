@@ -92,8 +92,13 @@ public class DataWindow extends JFrame {
                         isSearching = true;
                         searchResults = db.getGroups().findProduct(searchField.getText());
                         if (searchResults != null && searchResults.size() != 0) {
-                            refreshProductList();
+                            groupModel.clear();
+                            for(Product p: searchResults){
+                                if(!groupModel.contains(p.getGroup()))
+                                    groupModel.add(0, p.getGroup());
+                            }
                         }else{
+                            groupModel.clear();
                             productModel.clear();
                         }
                     }else{
@@ -214,7 +219,6 @@ public class DataWindow extends JFrame {
                 for (Product p : groupList.getSelectedValue().getListOfProducts()) {
                     if (searchResults.contains(p)) {
                         productModel.add(0, p);
-                        System.out.println("test");
                     }
                 }
             }
@@ -226,7 +230,6 @@ public class DataWindow extends JFrame {
         for(GroupOfProducts g:db.getGroups().getListOfGroups()){
             groupModel.add(0, g);
         }
-        groupList.setSelectedIndex(0);
         groupList.grabFocus();
     }
     /**
