@@ -23,6 +23,7 @@ public class GroupOfProducts {
             if(product.getName().equals(product1.getName()))
                 return false;
         }
+        product.setGroup(this);
         products.put(product, 0);
         return true;
     }

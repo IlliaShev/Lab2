@@ -5,6 +5,7 @@ package dto;
  */
 public class Product {
     private String name;
+    private GroupOfProducts group;
     private String producer;
     private String description;
     private double price;
@@ -42,6 +43,13 @@ public class Product {
         this.description = description;
     }
 
+    public GroupOfProducts getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupOfProducts group) {
+        this.group = group;
+    }
 
     public void setPrice(double price) {
         this.price = price;
