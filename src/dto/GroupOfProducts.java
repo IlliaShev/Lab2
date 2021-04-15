@@ -5,11 +5,13 @@ import java.util.*;
 public class GroupOfProducts {
 
     private String nameOfGroup;
+    private String description;
     private Map<Product, Integer> products;
 
 
-    public GroupOfProducts(String nameOfGroup){
+    public GroupOfProducts(String nameOfGroup, String description){
         this.nameOfGroup = nameOfGroup;
+        this.description = description;
         products = new HashMap<>();
     }
 
@@ -86,6 +88,14 @@ public class GroupOfProducts {
 
     public void setNameOfGroup(String nameOfGroup) {
         this.nameOfGroup = nameOfGroup;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

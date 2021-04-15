@@ -44,12 +44,26 @@ public class HandlerGroupOfProducts {
         for(GroupOfProducts group: groups){
             for(Product product: group.getListOfProducts()){
                 Matcher mch = pattern.matcher(product.getName());
-                if(mch.matches())
+                if(mch.matches()||matcherStrings(product.getName(), pat))
                     resList.add(product);
 
             }
         }
         return resList;
+    }
+
+    private boolean matcherStrings(String s1, String pat){
+        int j = 0;
+        for(int i = 0; i < pat.length(); i++){
+           if(pat.charAt(i) == '?') {
+               j++;
+               continue;
+           }
+           if(pat.charAt(i) != s1.charAt(j))
+               return false;
+           j++;
+        }
+        return true;
     }
 
     /**
@@ -59,5 +73,20 @@ public class HandlerGroupOfProducts {
         return groups;
     }
 
+
+    public String getAllInfo(){
+        List<GroupOfProducts> groupsOfProducts = groups;
+        groupsOfProducts.sort(Comparator.comparing(GroupOfProducts::getNameOfGroup));
+        StringBuilder result = new StringBuilder();
+        for(GroupOfProducts group: groupsOfProducts){
+            result.append("Group: ").append(group.getNameOfGroup()).append("\n");
+            result.append("Description: ").append(group.getDescription()).append("\n");
+            List<Product> products = group.getListOfProducts();
+            for(Product product: products){
+                result.append("\t\tProduct name: ").append(product.getName()).append('\n');
+            }
+        }
+        return result.toString();
+    }
 
 }

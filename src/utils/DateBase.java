@@ -65,10 +65,10 @@ public class DateBase {
     private HandlerGroupOfProducts groups = new HandlerGroupOfProducts();
 
     {
-        group[0] = new GroupOfProducts("dairy");
-        group[1] = new GroupOfProducts("butcher`s");
-        group[2] = new GroupOfProducts("greengrocery");
-        group[3] = new GroupOfProducts("bakery");
+        group[0] = new GroupOfProducts("dairy", "-");
+        group[1] = new GroupOfProducts("butcher`s", "-");
+        group[2] = new GroupOfProducts("greengrocery", "-");
+        group[3] = new GroupOfProducts("bakery", "-");
 
         products[0] = new Product("Milk", "Nestle", "Low fat milk", 2.99);
         products[1] = new Product("Yogurt", "Producers", "Low fat yogurt with blended strawberry", 4.99);
