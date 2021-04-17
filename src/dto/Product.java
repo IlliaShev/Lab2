@@ -8,6 +8,7 @@ public class Product {
     private GroupOfProducts group;
     private String producer;
     private String description;
+    private int value;
     private double price;
 
     /**
@@ -60,6 +61,14 @@ public class Product {
     public String getDescription() { return description; }
 
     public double getPrice() { return price; }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 
     @Override
     public String toString() {

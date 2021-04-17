@@ -7,8 +7,11 @@ import utils.DateBase;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.List;
 
 /** Frame to work with database */
@@ -34,6 +37,7 @@ public class DataWindow extends JFrame {
     private JPanel buttonPanel;
     private JButton addButton;
     private JButton removeButton;
+    private JFileChooser fileChooser;
     private boolean isSearching = false;
     private List<Product> searchResults;
 
@@ -266,9 +270,22 @@ public class DataWindow extends JFrame {
                     public void actionPerformed(ActionEvent e) { }
                 });
                 JMenuItem save = new JMenuItem("Save");
-                save.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                save.addActionListener(e -> {
+                    fileChooser = new JFileChooser(".");
+                    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    int response = fileChooser.showSaveDialog(null);
+                    if(response == JFileChooser.APPROVE_OPTION){
+                        try {
+                            File fileToSave = fileChooser.getSelectedFile();
+                            BufferedWriter bw = new BufferedWriter(new FileWriter(fileToSave));
+                            bw.write(db.getGroups().getAllInfo());
+                            System.out.println(db.getGroups().getAllInfo());
+                            bw.close();
+                        } catch (IOException ex){
+                            ex.printStackTrace();
+                        }
+                    }
+
                 });
                 JMenuItem close = new JMenuItem("Close");
                 close.addActionListener(new ActionListener() {

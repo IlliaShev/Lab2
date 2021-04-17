@@ -26,6 +26,7 @@ public class GroupOfProducts {
                 return false;
         }
         product.setGroup(this);
+        product.setValue(0);
         products.put(product, 0);
         return true;
     }
@@ -43,6 +44,7 @@ public class GroupOfProducts {
         if(!res)
             return false;
         products.put(product, products.get(product) + value);
+        product.setValue(product.getValue() +value);
         return true;
     }
 
@@ -96,6 +98,22 @@ public class GroupOfProducts {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGroupInfo(){
+        StringBuilder result = new StringBuilder();
+        List<Product> products = getListOfProducts();
+        products.sort(Comparator.comparing(Product::getName));
+        result.append("Name: ").append(nameOfGroup).append("\n");
+        result.append("Description: ").append(description).append("\n").append("Products:\n");
+        double totalValue = 0;
+        for(Product product: products){
+            int value = this.products.get(product);
+            totalValue+=product.getPrice() * value;
+            result.append("\t\t").append(product.getName()).append(": ").append(product.getPrice()).append("$; ").append("Value ").append(value).append("\n");
+        }
+        result.append("Total cost ").append(totalValue).append(".");
+        return result.toString();
     }
 
     @Override

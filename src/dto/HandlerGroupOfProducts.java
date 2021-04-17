@@ -76,17 +76,33 @@ public class HandlerGroupOfProducts {
 
     public String getAllInfo(){
         List<GroupOfProducts> groupsOfProducts = groups;
+        if(groups.size() == 0)
+            return "";
         groupsOfProducts.sort(Comparator.comparing(GroupOfProducts::getNameOfGroup));
         StringBuilder result = new StringBuilder();
         for(GroupOfProducts group: groupsOfProducts){
             result.append("Group: ").append(group.getNameOfGroup()).append("\n");
             result.append("Description: ").append(group.getDescription()).append("\n");
             List<Product> products = group.getListOfProducts();
+            products.sort(Comparator.comparing(Product::getName));
             for(Product product: products){
                 result.append("\t\tProduct name: ").append(product.getName()).append('\n');
             }
         }
-        return result.toString();
+        return result.substring(0,result.length()-1);
+    }
+
+    public String getAllProducts(){
+        StringBuilder result = new StringBuilder();
+        List<Product> products = new LinkedList<>();
+        for(GroupOfProducts group: groups){
+            products.addAll(group.getListOfProducts());
+        }
+        products.sort(Comparator.comparing(Product::getName));
+        for(Product product: products){
+            result.append("\t\tProduct name: ").append(product.getName()).append("; Value: ").append(product.getValue());
+        }
+        return result.substring(0,result.length()-1);
     }
 
 }
