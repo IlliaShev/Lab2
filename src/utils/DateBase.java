@@ -4,8 +4,6 @@ import dto.GroupOfProducts;
 import dto.HandlerGroupOfProducts;
 import dto.Product;
 
-import java.util.*;
-
 /**
  * Convert csv to java class
  */
@@ -60,9 +58,18 @@ public class DateBase {
 //        return checkable;
 //    }
 
-    private Product[] products = new Product[20];
-    private GroupOfProducts[] group = new GroupOfProducts[4];
-    private HandlerGroupOfProducts groups = new HandlerGroupOfProducts();
+    /**
+     * Create object Product
+     */
+    private final Product[] products = new Product[20];
+    /**
+     * Create object GroupOfProducts
+     */
+    private final GroupOfProducts[] group = new GroupOfProducts[4];
+    /**
+     * Create object HandlerGroupOfProducts
+     */
+    private final HandlerGroupOfProducts groups = new HandlerGroupOfProducts();
 
     {
         group[0] = new GroupOfProducts("dairy", "-");
@@ -122,10 +129,21 @@ public class DateBase {
 
     }
 
+
+    /**
+     * Getter HandlerGroupOfProducts
+     *
+     * @return handler of product
+     */
     public HandlerGroupOfProducts getGroups() {
         return groups;
     }
 
+    /**
+     * Start Program
+     *
+     * @param args - arguments cl
+     */
     public static void main(String[] args) {
 
     }

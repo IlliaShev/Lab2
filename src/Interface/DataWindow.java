@@ -5,47 +5,106 @@ import dto.Product;
 import utils.DateBase;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
-/** Frame to work with database */
+/**
+ * Frame to work with database
+ */
 public class DataWindow extends JFrame {
 
-    /** Constants for window size */
+    /**
+     * Constants for window size WIDTH
+     */
     private static final int WIDTH = 600;
+    /**
+     * Constants for window size HEIGHT
+     */
     private static final int HEIGHT = 400;
 
-    /** DateBase field for this frame to work with */
-    private DateBase db;
+    /**
+     * DateBase field for this frame to work with
+     */
+    final private DateBase db;
 
-    /** Visual components */
+    //Visual components
+
+    /**
+     * JTextField searchField
+     */
     private JTextField searchField;
+    /**
+     * JPanel infoPanel
+     */
     private JPanel infoPanel;
+    /**
+     * JList productList
+     */
     private JList<Product> productList;
+    /**
+     * JList groupList
+     */
     private JList<GroupOfProducts> groupList;
+    /**
+     * JScrollPane productScroll
+     */
     private JScrollPane productScroll;
+    /**
+     * DefaultListModel productModel
+     */
     private DefaultListModel<Product> productModel;
+    /**
+     * DefaultListModel groupModel
+     */
     private DefaultListModel<GroupOfProducts> groupModel;
+    /**
+     * JScrollPane groupScroll
+     */
     private JScrollPane groupScroll;
+    /**
+     *  JTextArea infoTextArea
+     */
     private JTextArea infoTextArea;
+    /**
+     * JPanel buttonPanel
+     */
     private JPanel buttonPanel;
+    /**
+     * JButton addButton
+     */
     private JButton addButton;
+    /**
+     * JButton removeButton
+     */
     private JButton removeButton;
+    /**
+     * JFileChooser fileChooser
+     */
     private JFileChooser fileChooser;
+    /**
+     * boolean isSearching
+     */
     private boolean isSearching = false;
+    /**
+     * List searchResults
+     */
     private List<Product> searchResults;
 
-    /** Menu bar field */
+    /**
+     * Menu bar field
+     */
     private JMenuBar menuBar;
 
-    /** Constructor with DateBase param */
-    public DataWindow(DateBase db){
+    /**
+     * Constructor with DateBase param
+     * @param db  Database
+     */
+    public DataWindow(DateBase db) {
         this.db = db;
         setTitle("DataBase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,19 +122,22 @@ public class DataWindow extends JFrame {
 
     }
 
-    /** Initialization of visual components */
-    private void init(JFrame frame){
-        if(searchField == null){
+    /**
+     * init
+     * @param frame JFrame
+     */
+    private void init(JFrame frame) {
+        if (searchField == null) {
             searchField = new JTextField("Search");
-            searchField.setPreferredSize(new Dimension(7*WIDTH/8, HEIGHT/8));
-            searchField.setSize(new Dimension(7*WIDTH/8, HEIGHT/8));
+            searchField.setPreferredSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
+            searchField.setSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
             searchField.setFont(new Font("Calibri", Font.PLAIN, 20));
             searchField.addFocusListener(new FocusListener() {
                 private boolean isUntouched = true;
 
                 @Override
                 public void focusGained(FocusEvent e) {
-                    if(isUntouched){
+                    if (isUntouched) {
                         searchField.setText("");
                         isUntouched = false;
                     }
@@ -83,104 +145,93 @@ public class DataWindow extends JFrame {
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    if(searchField.getText() == null||searchField.getText().equals("")||isUntouched){
+                    if (searchField.getText() == null || searchField.getText().equals("") || isUntouched) {
                         isUntouched = true;
                         searchField.setText("Search");
                     }
                 }
             });
-            searchField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(searchField.getText()!= null&&!searchField.getText().equals("")) {
-                        isSearching = true;
-                        searchResults = db.getGroups().findProduct(searchField.getText());
-                        if (searchResults != null && searchResults.size() != 0) {
-                            groupModel.clear();
-                            for(Product p: searchResults){
-                                if(!groupModel.contains(p.getGroup()))
-                                    groupModel.addElement(p.getGroup());
-                            }
-                        }else{
-                            groupModel.clear();
-                            productModel.clear();
+            searchField.addActionListener(e -> {
+                if (searchField.getText() != null && !searchField.getText().equals("")) {
+                    isSearching = true;
+                    searchResults = db.getGroups().findProduct(searchField.getText());
+                    if (searchResults != null && searchResults.size() != 0) {
+                        groupModel.clear();
+                        for (Product p : searchResults) {
+                            if (!groupModel.contains(p.getGroup()))
+                                groupModel.addElement(p.getGroup());
                         }
-                    }else{
-                        searchResults = null;
-                        isSearching = false;
-                        refreshGroupList();
+                    } else {
+                        groupModel.clear();
+                        productModel.clear();
                     }
+                } else {
+                    searchResults = null;
+                    isSearching = false;
+                    refreshGroupList();
                 }
             });
         }
-        if(infoTextArea == null){
+        if (infoTextArea == null) {
             infoTextArea = new JTextArea("");
-            infoTextArea.setPreferredSize(new Dimension(7*WIDTH/24, 6*HEIGHT/8));
+            infoTextArea.setPreferredSize(new Dimension(7 * WIDTH / 24, 6 * HEIGHT / 8));
             infoTextArea.setEditable(false);
             infoTextArea.setWrapStyleWord(true);
             infoTextArea.setLineWrap(true);
             infoTextArea.setFocusable(false);
         }
-        if(productList == null){
-            productModel = new DefaultListModel<Product>();
+        if (productList == null) {
+            productModel = new DefaultListModel<>();
             productList = new JList<>(productModel);
             //productList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            productList.addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    Product p = productList.getSelectedValue();
-                    if(p != null) {
-                        infoTextArea.setText("");
-                        infoTextArea.append("Product name: " + p.getName() + "\n" + "Product producer: " + p.getProducer() + "\n" +
-                                "Product description: " + p.getDescription() + "\n" + "Product price: " + p.getPrice()+"\n"+
-                                "Product amount in stock: "+groupList.getSelectedValue().getValue(p)+"\n"+"Total value of product in stock: "+
-                                ((double)(Math.round(p.getPrice()*groupList.getSelectedValue().getValue(p)*100))/100));
-                    }else{
-                        infoTextArea.setText("");
-                    }
+            productList.addListSelectionListener(e -> {
+                Product p = productList.getSelectedValue();
+                infoTextArea.setText("");
+                if (p != null) {
+                    infoTextArea.append("Product name: " + p.getName() + "\n" + "Product producer: " + p.getProducer() + "\n" +
+                            "Product description: " + p.getDescription() + "\n" + "Product price: " + p.getPrice() + "\n" +
+                            "Product amount in stock: " + groupList.getSelectedValue().getValue(p) + "\n" + "Total value of product in stock: " +
+                            ((double) (Math.round(p.getPrice() * groupList.getSelectedValue().getValue(p) * 100)) / 100));
                 }
             });
         }
-        if(productScroll == null){
+        if (productScroll == null) {
             productScroll = new JScrollPane(productList);
             productScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             productScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
-        if(groupList == null){
-            groupModel = new DefaultListModel<GroupOfProducts>();
+        if (groupList == null) {
+            groupModel = new DefaultListModel<>();
             groupList = new JList<>(groupModel);
-         //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
+            //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            for(GroupOfProducts g: db.getGroups().getListOfGroups()){
+            for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
                 groupModel.addElement(g);
             }
-            groupList.addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    if(!isSearching){
-                        refreshProductList();
-                    }else{
-                        productModel.clear();
-                        if(groupList.getSelectedValue()!= null) {
-                            for (Product p : groupList.getSelectedValue().getListOfProducts()) {
-                                if (searchResults.contains(p)) {
-                                    productModel.addElement(p);
-                                }
+            groupList.addListSelectionListener(e -> {
+                if (!isSearching) {
+                    refreshProductList();
+                } else {
+                    productModel.clear();
+                    if (groupList.getSelectedValue() != null) {
+                        for (Product p : groupList.getSelectedValue().getListOfProducts()) {
+                            if (searchResults.contains(p)) {
+                                productModel.addElement(p);
                             }
-                        }else{
-                            productModel.clear();
                         }
+                    } else {
+                        productModel.clear();
                     }
                 }
             });
         }
-        if(groupScroll == null){
+        if (groupScroll == null) {
             groupScroll = new JScrollPane(groupList);
             groupScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             groupScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
-        if(infoPanel == null){
+        if (infoPanel == null) {
             infoPanel = new JPanel();
             GridLayout layout = new GridLayout(1, 3);
             layout.setHgap(5);
@@ -190,33 +241,27 @@ public class DataWindow extends JFrame {
             infoPanel.add(productScroll);
             infoPanel.add(infoTextArea);
         }
-        if(addButton == null){
+        if (addButton == null) {
             addButton = new JButton("Add");
-            addButton.setPreferredSize(new Dimension(WIDTH/5, HEIGHT/ 10));
-            addButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    ChangeValueWindow cvw = new ChangeValueWindow(frame, db, true);
-                    cvw.setVisible(true);
-                    groupList.clearSelection();
-                    refreshProductList();
-                }
+            addButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
+            addButton.addActionListener(e -> {
+                ChangeValueWindow cvw = new ChangeValueWindow(frame, db, true);
+                cvw.setVisible(true);
+                groupList.clearSelection();
+                refreshProductList();
             });
         }
-        if(removeButton == null){
+        if (removeButton == null) {
             removeButton = new JButton("Remove");
-            removeButton.setPreferredSize(new Dimension(WIDTH/5, HEIGHT/ 10));
-            removeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    ChangeValueWindow cvw = new ChangeValueWindow(frame, db, false);
-                    cvw.setVisible(true);
-                    groupList.clearSelection();
-                    refreshProductList();
-                }
+            removeButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
+            removeButton.addActionListener(e -> {
+                ChangeValueWindow cvw = new ChangeValueWindow(frame, db, false);
+                cvw.setVisible(true);
+                groupList.clearSelection();
+                refreshProductList();
             });
         }
-        if(buttonPanel == null){
+        if (buttonPanel == null) {
             buttonPanel = new JPanel(new GridLayout(1, 2));
             JPanel temp = new JPanel();
             temp.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -229,15 +274,18 @@ public class DataWindow extends JFrame {
         }
     }
 
-    private void refreshProductList(){
+    /**
+     * Update product list
+     */
+    private void refreshProductList() {
         infoTextArea.setText("");
         productModel.clear();
-        if(groupList.getSelectedValue()!= null) {
-            if(!isSearching) {
+        if (groupList.getSelectedValue() != null) {
+            if (!isSearching) {
                 for (Product p : groupList.getSelectedValue().getListOfProducts()) {
                     productModel.addElement(p);
                 }
-            }else{
+            } else {
                 for (Product p : groupList.getSelectedValue().getListOfProducts()) {
                     if (searchResults.contains(p)) {
                         productModel.addElement(p);
@@ -247,58 +295,54 @@ public class DataWindow extends JFrame {
         }
     }
 
-    private void refreshGroupList(){
+    /**
+     * Update group list
+     */
+    private void refreshGroupList() {
         groupModel.clear();
-        for(GroupOfProducts g:db.getGroups().getListOfGroups()){
+        for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
             groupModel.addElement(g);
         }
         groupList.grabFocus();
     }
+
     /**
      * Initialization of menubar with listeners
-     *  @param frame - main frame
+     *
+     * @param frame - main frame
      */
-    private void initMenuBar(JFrame frame){
-        if(menuBar == null){
+    private void initMenuBar(JFrame frame) {
+        if (menuBar == null) {
             menuBar = new JMenuBar();
             JMenu file = new JMenu("File");
             menuBar.add(file);
             {
                 JMenuItem open = new JMenuItem("Open");
-                open.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                open.addActionListener(e -> {
                 });
                 JMenuItem save = new JMenuItem("Save");
                 save.addActionListener(e -> {
                     fileChooser = new JFileChooser(".");
                     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     int response = fileChooser.showSaveDialog(null);
-                    if(response == JFileChooser.APPROVE_OPTION){
+                    if (response == JFileChooser.APPROVE_OPTION) {
                         try {
                             File fileToSave = fileChooser.getSelectedFile();
                             BufferedWriter bw = new BufferedWriter(new FileWriter(fileToSave));
                             bw.write(db.getGroups().getAllInfo());
                             System.out.println(db.getGroups().getAllInfo());
                             bw.close();
-                        } catch (IOException ex){
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
 
                 });
                 JMenuItem close = new JMenuItem("Close");
-                close.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                close.addActionListener(e -> {
                 });
                 JMenuItem exit = new JMenuItem("Exit");
-                exit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                    }
-                });
+                exit.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
                 file.add(open);
                 file.add(save);
                 file.add(close);
@@ -308,19 +352,13 @@ public class DataWindow extends JFrame {
             {
                 JMenu group = new JMenu("Group");
                 JMenuItem add = new JMenuItem("Add");
-                add.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                add.addActionListener(e -> {
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
-                edit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                edit.addActionListener(e -> {
                 });
                 JMenuItem remove = new JMenuItem("Remove");
-                remove.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                remove.addActionListener(e -> {
                 });
                 group.add(add);
                 group.add(editItem);
@@ -330,19 +368,13 @@ public class DataWindow extends JFrame {
             {
                 JMenu product = new JMenu("Product");
                 JMenuItem add = new JMenuItem("Add");
-                add.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                add.addActionListener(e -> {
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
-                edit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                edit.addActionListener(e -> {
                 });
                 JMenuItem remove = new JMenuItem("Remove");
-                remove.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) { }
+                remove.addActionListener(e -> {
                 });
                 product.add(add);
                 product.add(editItem);
@@ -351,16 +383,19 @@ public class DataWindow extends JFrame {
             }
             menuBar.add(edit);
             JMenuItem info = new JMenuItem("Info");
-            info.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) { }
+            info.addActionListener(e -> {
             });
             menuBar.add(info);
         }
     }
 
 
-    public static void main(String[] args){
+    /**
+     * Start Program
+     *
+     * @param args - arguments cl
+     */
+    public static void main(String[] args) {
         DateBase test = new DateBase();
         DataWindow ui = new DataWindow(test);
         ui.setVisible(true);

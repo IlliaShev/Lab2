@@ -1,50 +1,62 @@
 package dto;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class handler of group Product
+ */
 public class HandlerGroupOfProducts {
-    private List<GroupOfProducts> groups;
+    /**
+     * List GroupOfProducts
+     */
+    private final List<GroupOfProducts> groups;
 
-    public HandlerGroupOfProducts(){
+    /**
+     * Constructor HandlerGroupOfProducts use group
+     */
+    public HandlerGroupOfProducts() {
         groups = new LinkedList<>();
     }
 
     /**
      * Add group to list of groups
+     *
      * @param group - new group
-     * @return true if adding was successful
-     * */
-    public boolean addGroup(GroupOfProducts group){
-        for(GroupOfProducts group1: groups){
-            if(group.getNameOfGroup().equals(group1.getNameOfGroup()))
-                return false;
+     */
+    public void addGroup(GroupOfProducts group) {
+        for (GroupOfProducts group1 : groups) {
+            if (group.getNameOfGroup().equals(group1.getNameOfGroup()))
+                return;
         }
         groups.add(group);
-        return true;
     }
 
     /**
      * Delete group from a list of groups
+     *
      * @param group - group to delete
-     * */
-    public void deleteGroup(GroupOfProducts group){
+     */
+    public void deleteGroup(GroupOfProducts group) {
         groups.remove(group);
     }
 
     /**
      * Find products that matches string pattern
+     *
      * @param pat - string pattern
      * @return list of products
-     * */
-    public List<Product> findProduct(String pat){
+     */
+    public List<Product> findProduct(String pat) {
         Pattern pattern = Pattern.compile(pat);
         List<Product> resList = new LinkedList<>();
-        for(GroupOfProducts group: groups){
-            for(Product product: group.getListOfProducts()){
+        for (GroupOfProducts group : groups) {
+            for (Product product : group.getListOfProducts()) {
                 Matcher mch = pattern.matcher(product.getName());
-                if(mch.matches()||matcherStrings(product.getName(), pat))
+                if (mch.matches() || matcherStrings(product.getName(), pat))
                     resList.add(product);
 
             }
@@ -52,57 +64,74 @@ public class HandlerGroupOfProducts {
         return resList;
     }
 
-    private boolean matcherStrings(String s1, String pat){
+    /**
+     * Match String
+     *
+     * @param s1  string
+     * @param pat string
+     * @return boolean
+     */
+    private boolean matcherStrings(String s1, String pat) {
         int j = 0;
-        for(int i = 0; i < pat.length(); i++){
-           if(pat.charAt(i) == '?') {
-               j++;
-               continue;
-           }
-           if(pat.charAt(i) != s1.charAt(j))
-               return false;
-           j++;
+        for (int i = 0; i < pat.length(); i++) {
+            if (pat.charAt(i) == '?') {
+                j++;
+                continue;
+            }
+            if (pat.charAt(i) != s1.charAt(j))
+                return false;
+            j++;
         }
         return true;
     }
 
     /**
      * @return list of groups
-     * */
-    public List<GroupOfProducts> getListOfGroups(){
+     **/
+    public List<GroupOfProducts> getListOfGroups() {
         return groups;
     }
 
 
-    public String getAllInfo(){
+    /**
+     * getAllInfo
+     *
+     * @return info
+     */
+    public String getAllInfo() {
         List<GroupOfProducts> groupsOfProducts = groups;
-        if(groups.size() == 0)
+        if (groups.size() == 0)
             return "";
         groupsOfProducts.sort(Comparator.comparing(GroupOfProducts::getNameOfGroup));
         StringBuilder result = new StringBuilder();
-        for(GroupOfProducts group: groupsOfProducts){
+        for (GroupOfProducts group : groupsOfProducts) {
             result.append("Group: ").append(group.getNameOfGroup()).append("\n");
             result.append("Description: ").append(group.getDescription()).append("\n");
             List<Product> products = group.getListOfProducts();
             products.sort(Comparator.comparing(Product::getName));
-            for(Product product: products){
+            for (Product product : products) {
                 result.append("\t\tProduct name: ").append(product.getName()).append('\n');
             }
         }
-        return result.substring(0,result.length()-1);
+        return result.substring(0, result.length() - 1);
     }
 
-    public String getAllProducts(){
+    /**
+     * getAllProducts
+     *
+     * @return AllProducts
+     */
+    public String getAllProducts() {
         StringBuilder result = new StringBuilder();
         List<Product> products = new LinkedList<>();
-        for(GroupOfProducts group: groups){
+        for (GroupOfProducts group : groups) {
             products.addAll(group.getListOfProducts());
         }
         products.sort(Comparator.comparing(Product::getName));
-        for(Product product: products){
+        for (Product product : products) {
             result.append("\t\tProduct name: ").append(product.getName()).append("; Value: ").append(product.getValue());
         }
-        return result.substring(0,result.length()-1);
+        return result.substring(0, result.length() - 1);
     }
 
 }
