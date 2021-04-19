@@ -105,7 +105,7 @@ public class DataWindow extends JFrame {
      */
     public DataWindow(DateBase db) {
         this.db = db;
-        setTitle("Автоматизоване робоче місце");
+        setTitle("Workspace");
         setFont(custom_font);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -346,7 +346,7 @@ public class DataWindow extends JFrame {
                             bw.write(db.getGroups().getAllInfo());
                             bw.close();
                         } catch(FileNotFoundException ex){
-                            JOptionPane.showMessageDialog(frame, "Оберіть корректний файл", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(frame, "Choose correct file", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -367,7 +367,7 @@ public class DataWindow extends JFrame {
                 JMenuItem add = new JMenuItem("Add");
                 add.setFont(custom_font);
                 add.addActionListener(e -> {
-                    SetGroup setter = new SetGroup(frame, "Додати групу", db, null);
+                    SetGroup setter = new SetGroup(frame, "Add group", db, null);
                     setter.setVisible(true);
                     if(setter.getResult()!=null){
                         db.getGroups().addGroup(setter.getResult());
@@ -385,13 +385,13 @@ public class DataWindow extends JFrame {
                 editItem.setFont(custom_font);
                 editItem.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Редагувати групу", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Edit group", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
-                        SetGroup setter = new SetGroup(frame, "Редагувати групу", db, chooser.getChosenGroup());
+                        SetGroup setter = new SetGroup(frame, "Edit group", db, chooser.getChosenGroup());
                         setter.setVisible(true);
                         if(setter.getResult()!=null){
                             chooser.getChosenGroup().setNameOfGroup(setter.getResult().getNameOfGroup());
@@ -411,10 +411,10 @@ public class DataWindow extends JFrame {
                 remove.setFont(custom_font);
                 remove.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Видалити групу", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Remove group", db);
                     chooser.setVisible(true);
                     db.getGroups().deleteGroup(chooser.getChosenGroup());
                     if(isSearching){
@@ -437,13 +437,13 @@ public class DataWindow extends JFrame {
                 add.setFont(custom_font);
                 add.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть групу", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Choose group", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
-                        SetProduct setter = new SetProduct(frame, "Додати продукт", db, null);
+                        SetProduct setter = new SetProduct(frame, "Add product", db, null);
                         setter.setVisible(true);
                         if(setter.getResult()!=null){
                             chooser.getChosenGroup().addProduct(setter.getResult());
@@ -462,13 +462,13 @@ public class DataWindow extends JFrame {
                 editItem.setFont(custom_font);
                 editItem.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
                         return;
                     }
-                    ChooseProduct chooser = new ChooseProduct(frame, "Редагувати продукт", db);
+                    ChooseProduct chooser = new ChooseProduct(frame, "Edit product", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
-                        SetProduct setter = new SetProduct(frame, "Редагувати продукт", db, chooser.getResult());
+                        SetProduct setter = new SetProduct(frame, "Edit product", db, chooser.getResult());
                         setter.setVisible(true);
                         if(setter.getResult()!=null){
                             Product p = chooser.getResult();
@@ -490,10 +490,10 @@ public class DataWindow extends JFrame {
                 remove.setFont(custom_font);
                 remove.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
                         return;
                     }
-                    ChooseProduct chooser = new ChooseProduct(frame, "Видалити продукт", db);
+                    ChooseProduct chooser = new ChooseProduct(frame, "Remove product", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
                         chooser.getResult().getGroup().deleteProduct(chooser.getResult());
@@ -520,10 +520,10 @@ public class DataWindow extends JFrame {
                 infoGroup.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        ChooseGroup chooser = new ChooseGroup(frame, "Перегляд групи", db);
+                        ChooseGroup chooser = new ChooseGroup(frame, "Info about group", db);
                         chooser.setVisible(true);
                         if(chooser.getChosenGroup()!=null){
-                            InfoWindow info = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
+                            InfoWindow info = new InfoWindow("Group info", chooser.getChosenGroup().getGroupInfo());
                             info.setVisible(true);
                         }
                     }
@@ -533,7 +533,7 @@ public class DataWindow extends JFrame {
                 infoStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllProducts());
+                        InfoWindow info = new InfoWindow("Stock info", db.getGroups().getAllProducts());
                         info.setVisible(true);
                     }
                 });

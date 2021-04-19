@@ -105,7 +105,7 @@ public class Product {
      * @param price price
      */
     public void setPrice(double price) {
-        this.price = price;
+        this.price = (double)((int)(price*100))/100;
     }
 
     /**

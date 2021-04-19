@@ -69,7 +69,7 @@ public class ChooseProduct extends JDialog {
                         }
                         productBox.setSelectedItem(null);
                     }else{
-                        JOptionPane.showMessageDialog(null, "Ця группа не містить продуктів", "Warning", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "This group have no products", "Warning", JOptionPane.WARNING_MESSAGE);
                         groupBox.setSelectedItem(null);
                     }
                 }
@@ -114,7 +114,7 @@ public class ChooseProduct extends JDialog {
                     result = (Product) productBox.getSelectedItem();
                     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }else{
-                    JOptionPane.showMessageDialog(null, "Оберіть коректну группу та продукт", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Choose correct group and product", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });

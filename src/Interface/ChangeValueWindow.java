@@ -68,9 +68,9 @@ public class ChangeValueWindow extends JDialog {
         this.isAdding = isAdding;
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         if (isAdding)
-            setTitle("Додати товар на склад");
+            setTitle("Add product to stock");
         else
-            setTitle("Списати товар зі складу");
+            setTitle("Remove product from stock");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         setBounds((screenSize.width-WIDTH)/2, (screenSize.height - HEIGHT)/2,WIDTH, HEIGHT);
