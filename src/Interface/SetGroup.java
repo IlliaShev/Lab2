@@ -83,7 +83,7 @@ public class SetGroup extends JDialog {
                 if(nameField.getText()!=null&&!nameField.getText().equals("")&&isCorrectName(nameField.getText())){
                     boolean temp = true;
                     for(GroupOfProducts g: db.getGroups().getListOfGroups()){
-                        if(g.getNameOfGroup().equals(nameField.getText())&&!group.getNameOfGroup().equals(nameField.getText())){
+                        if(g.getNameOfGroup().equals(nameField.getText())&&(group==null||!group.getNameOfGroup().equals(nameField.getText()))){
                             temp = false;
                             break;
                         }
