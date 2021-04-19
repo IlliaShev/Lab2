@@ -73,6 +73,8 @@ public class HandlerGroupOfProducts {
      */
     private boolean matcherStrings(String s1, String pat) {
         int j = 0;
+        if(pat.length() > s1.length())
+            return false;
         for (int i = 0; i < pat.length(); i++) {
             if (pat.charAt(i) == '?') {
                 j++;
