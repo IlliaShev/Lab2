@@ -97,6 +97,8 @@ public class DataWindow extends JFrame {
      */
     private JMenuBar menuBar;
 
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
     /**
      * Constructor with DateBase param
      * @param db  Database
@@ -104,6 +106,7 @@ public class DataWindow extends JFrame {
     public DataWindow(DateBase db) {
         this.db = db;
         setTitle("Автоматизоване робоче місце");
+        setFont(custom_font);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -130,7 +133,7 @@ public class DataWindow extends JFrame {
             searchField = new JTextField("Search");
             searchField.setPreferredSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
             searchField.setSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
-            searchField.setFont(new Font("Calibri", Font.PLAIN, 20));
+            searchField.setFont(custom_font);
             searchField.addFocusListener(new FocusListener() {
                 private boolean isUntouched = true;
 
@@ -173,6 +176,7 @@ public class DataWindow extends JFrame {
         }
         if (infoTextArea == null) {
             infoTextArea = new JTextArea("");
+            infoTextArea.setFont(custom_font);
             infoTextArea.setPreferredSize(new Dimension(7 * WIDTH / 24, 6 * HEIGHT / 8));
             infoTextArea.setEditable(false);
             infoTextArea.setWrapStyleWord(true);
@@ -182,6 +186,7 @@ public class DataWindow extends JFrame {
         if (productList == null) {
             productModel = new DefaultListModel<>();
             productList = new JList<>(productModel);
+            productList.setFont(custom_font);
             //productList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             productList.addListSelectionListener(e -> {
@@ -203,6 +208,7 @@ public class DataWindow extends JFrame {
         if (groupList == null) {
             groupModel = new DefaultListModel<>();
             groupList = new JList<>(groupModel);
+            groupList.setFont(custom_font);
             //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
@@ -232,6 +238,7 @@ public class DataWindow extends JFrame {
         }
         if (infoPanel == null) {
             infoPanel = new JPanel();
+            infoPanel.setFont(custom_font);
             GridLayout layout = new GridLayout(1, 3);
             layout.setHgap(5);
             layout.setVgap(10);
@@ -242,6 +249,7 @@ public class DataWindow extends JFrame {
         }
         if (addButton == null) {
             addButton = new JButton("Add");
+            addButton.setFont(custom_font);
             addButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
             addButton.addActionListener(e -> {
                 ChangeValueWindow cvw = new ChangeValueWindow(frame, db, true);
@@ -252,6 +260,7 @@ public class DataWindow extends JFrame {
         }
         if (removeButton == null) {
             removeButton = new JButton("Remove");
+            removeButton.setFont(custom_font);
             removeButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
             removeButton.addActionListener(e -> {
                 ChangeValueWindow cvw = new ChangeValueWindow(frame, db, false);
@@ -262,6 +271,7 @@ public class DataWindow extends JFrame {
         }
         if (buttonPanel == null) {
             buttonPanel = new JPanel(new GridLayout(1, 2));
+            buttonPanel.setFont(custom_font);
             JPanel temp = new JPanel();
             temp.setLayout(new FlowLayout(FlowLayout.RIGHT));
             temp.add(addButton);
@@ -313,12 +323,16 @@ public class DataWindow extends JFrame {
     private void initMenuBar(JFrame frame) {
         if (menuBar == null) {
             menuBar = new JMenuBar();
+            menuBar.setFont(custom_font);
             JMenu file = new JMenu("File");
+            file.setFont(custom_font);
             menuBar.add(file);
             {
                 JMenuItem save = new JMenuItem("Save");
+                save.setFont(custom_font);
                 save.addActionListener(e -> {
                     fileChooser = new JFileChooser(".");
+                    fileChooser.setFont(custom_font);
                     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     int response = fileChooser.showSaveDialog(null);
                     if (response == JFileChooser.APPROVE_OPTION) {
@@ -339,14 +353,18 @@ public class DataWindow extends JFrame {
 
                 });
                 JMenuItem exit = new JMenuItem("Exit");
+                exit.setFont(custom_font);
                 exit.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
                 file.add(save);
                 file.add(exit);
             }
             JMenu edit = new JMenu("Edit");
+            edit.setFont(custom_font);
             {
                 JMenu group = new JMenu("Group");
+                group.setFont(custom_font);
                 JMenuItem add = new JMenuItem("Add");
+                add.setFont(custom_font);
                 add.addActionListener(e -> {
                     SetGroup setter = new SetGroup(frame, "Додати группу", db, null);
                     setter.setVisible(true);
@@ -356,6 +374,7 @@ public class DataWindow extends JFrame {
                     }
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
+                editItem.setFont(custom_font);
                 editItem.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
@@ -375,6 +394,7 @@ public class DataWindow extends JFrame {
                 //    System.out.println(chooser.getChosenGroup());
                 });
                 JMenuItem remove = new JMenuItem("Remove");
+                remove.setFont(custom_font);
                 remove.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
@@ -392,7 +412,9 @@ public class DataWindow extends JFrame {
             }
             {
                 JMenu product = new JMenu("Product");
+                product.setFont(custom_font);
                 JMenuItem add = new JMenuItem("Add");
+                add.setFont(custom_font);
                 add.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
@@ -410,6 +432,7 @@ public class DataWindow extends JFrame {
                     }
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
+                editItem.setFont(custom_font);
                 editItem.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
@@ -430,6 +453,7 @@ public class DataWindow extends JFrame {
                     }
                 });
                 JMenuItem remove = new JMenuItem("Remove");
+                remove.setFont(custom_font);
                 remove.addActionListener(e -> {
                     if(db.getGroups().getListOfGroups().size()==0){
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
@@ -448,20 +472,20 @@ public class DataWindow extends JFrame {
             }
             menuBar.add(edit);
             JMenu info = new JMenu("Info");
+            info.setFont(custom_font);
             {
                 JMenuItem infoGroup = new JMenuItem("Group");
-                infoGroup.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
-                        chooser.setVisible(true);
-                        if(chooser.getChosenGroup()!=null){
-                            InfoWindow info = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
-                            info.setVisible(true);
-                        }
+                infoGroup.setFont(custom_font);
+                infoGroup.addActionListener(e -> {
+                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
+                    chooser.setVisible(true);
+                    if(chooser.getChosenGroup()!=null){
+                        InfoWindow info1 = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
+                        info1.setVisible(true);
                     }
                 });
                 JMenuItem infoStock = new JMenuItem("Stock");
+                infoStock.setFont(custom_font);
                 infoStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
