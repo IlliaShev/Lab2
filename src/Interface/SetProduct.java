@@ -134,7 +134,7 @@ public class SetProduct extends JDialog {
                 try{
                     Double.parseDouble(priceField.getText());
                 }catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(null, "Введіть коректні дані", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Enter correct data", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if(isCorrectName(nameField.getText())&&isNotEmpty(producerField.getText())){
@@ -142,10 +142,10 @@ public class SetProduct extends JDialog {
                         result = new Product(nameField.getText(), isNotEmpty(descriptionField.getText())?descriptionField.getText():"-", producerField.getText(), Double.parseDouble(priceField.getText()));
                         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                     }else{
-                        JOptionPane.showMessageDialog(null, "Продукт с таким ім\'ям вже існує", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "This name is already exists", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "Введіть коректні дані", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Enter correct data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

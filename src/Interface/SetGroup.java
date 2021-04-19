@@ -68,7 +68,7 @@ public class SetGroup extends JDialog {
                 if(!(nameField.getText() != null&&!nameField.getText().equals("")&&isCorrectName(nameField.getText()))){
                     nameField.setText("Name");
                     nameField.setFont(custom_font);
-                    JOptionPane.showMessageDialog(null, "Некоректне ім\'я", "Error", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Incorrect name", "Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -108,10 +108,10 @@ public class SetGroup extends JDialog {
                         result = new GroupOfProducts(nameField.getText(), (descriptionField.getText()==null||descriptionField.getText().equals(""))?"-":descriptionField.getText());
                         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                     }else{
-                        JOptionPane.showMessageDialog(null, "Таке ім\'я вже існує", "Error", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "This name is already exists", "Error", JOptionPane.WARNING_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "Введіть кореткне ім\'я", "Error", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Enter correct name", "Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
