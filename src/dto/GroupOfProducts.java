@@ -157,9 +157,7 @@ public class GroupOfProducts {
             totalValue += product.getPrice() * value;
             result.append("\t").append(product.getName()).append(": ").append(product.getPrice()).append("$; ").append("Value ").append(value).append("\n");
         }
-        int valueResult = (int)Math.round(totalValue * 100);
-        float finalValue = (float) valueResult / 100;
-        result.append("Total cost ").append(finalValue).append(".");
+        result.append("Total cost ").append((double)((int)(totalValue*100))/100).append(".");
         return result.toString();
     }
 
