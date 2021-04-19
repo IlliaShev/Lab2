@@ -27,6 +27,8 @@ public class SetProduct extends JDialog {
     private JButton cancelButton;
     private DateBase db;
     private Product result;
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
 
     public SetProduct(JFrame frame, String title, DateBase db, Product product) {
         super(frame, true);
@@ -45,6 +47,8 @@ public class SetProduct extends JDialog {
 
     private void init(JDialog frame, Product prod){
         nameField = new JTextField();
+        nameField.setFont(custom_font);
+        nameField.setFont(custom_font);
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -98,6 +102,7 @@ public class SetProduct extends JDialog {
         setPanel.add(new JLabel("Price", JLabel.CENTER));
         setPanel.add(priceField);
         okButton = new JButton("Ok");
+        okButton.setFont(custom_font);
         okButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         okButton.addActionListener(new ActionListener() {
             @Override
@@ -122,6 +127,7 @@ public class SetProduct extends JDialog {
         });
 
         cancelButton = new JButton("Cancel");
+        cancelButton.setFont(custom_font);
         cancelButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         cancelButton.addActionListener(new ActionListener() {
             @Override

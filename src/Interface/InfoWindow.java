@@ -18,6 +18,8 @@ public class InfoWindow extends JDialog {
     private JTextArea info;
     private JScrollPane infoScroll;
     private JButton okButton;
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
 
     public InfoWindow(String title, String infoString){
         super((Frame) null, true);
@@ -40,11 +42,13 @@ public class InfoWindow extends JDialog {
 
     private void init(JDialog frame){
         info = new JTextArea();
+        info.setFont(custom_font);
         info.setEditable(false);
         infoScroll = new JScrollPane(info);
         infoScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         infoScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         okButton = new JButton("Ok");
+        okButton.setFont(custom_font);
         okButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         okButton.addActionListener(new ActionListener() {
             @Override

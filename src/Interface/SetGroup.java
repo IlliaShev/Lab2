@@ -26,6 +26,8 @@ public class SetGroup extends JDialog {
     private JButton cancelButton;
     private DateBase db;
     private GroupOfProducts result;
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
 
     public SetGroup(JFrame owner, String title, DateBase db, GroupOfProducts group){
         super(owner, true);
@@ -45,6 +47,7 @@ public class SetGroup extends JDialog {
     private void init(JDialog frame, GroupOfProducts group){
         boolean isEditing = !(group==null);
         nameField = new JTextField();
+        nameField.setFont(custom_font);
         if(isEditing) {
             nameField.setText(group.getNameOfGroup());
         }
@@ -78,6 +81,7 @@ public class SetGroup extends JDialog {
         setPanel.add(new JLabel("Description", JLabel.CENTER));
         setPanel.add(descriptionField);
         okButton = new JButton("Ok");
+        okButton.setFont(custom_font);
         okButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         okButton.addActionListener(new ActionListener() {
             @Override
@@ -102,6 +106,7 @@ public class SetGroup extends JDialog {
             }
         });
         cancelButton = new JButton("Cancel");
+        cancelButton.setFont(custom_font);
         cancelButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         cancelButton.addActionListener(new ActionListener() {
             @Override

@@ -51,6 +51,10 @@ public class ChangeValueWindow extends JDialog {
      */
     private final boolean isAdding;
 
+
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
+
     /**
      * Constructor ChangeValueWindow
      *
@@ -88,6 +92,7 @@ public class ChangeValueWindow extends JDialog {
         {
             choosePanel.add(new JLabel("Group", JLabel.CENTER));
             groupBox = new JComboBox<>();
+            groupBox.setFont(custom_font);
             for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
                 groupBox.addItem(g);
             }
@@ -112,6 +117,7 @@ public class ChangeValueWindow extends JDialog {
         {
             choosePanel.add(new JLabel("Product", JLabel.CENTER));
             productBox = new JComboBox<>();
+            productBox.setFont(custom_font);
             productBox.setEditable(false);
             productBox.setFocusable(false);
             productBox.setAutoscrolls(true);
@@ -120,6 +126,7 @@ public class ChangeValueWindow extends JDialog {
         }
         choosePanel.add(new JLabel("Amount", JLabel.CENTER));
         amountField = new JTextField();
+        amountField.setFont(custom_font);
         amountField.setText("0");
         amountField.addKeyListener(new KeyListener() {
             @Override
@@ -144,9 +151,11 @@ public class ChangeValueWindow extends JDialog {
         });
         choosePanel.add(amountField);
         buttonPanel = new JPanel(new GridLayout(1, 2));
+        buttonPanel.setFont(custom_font);
         {
             JPanel temp = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             JButton okButton = new JButton("Ok");
+            okButton.setFont(custom_font);
             okButton.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT / 7));
             okButton.addActionListener(e -> {
                 GroupOfProducts group = (GroupOfProducts) groupBox.getSelectedItem();
@@ -182,6 +191,7 @@ public class ChangeValueWindow extends JDialog {
         {
             JPanel temp = new JPanel(new FlowLayout(FlowLayout.LEADING));
             JButton cancelButton = new JButton("Cancel");
+            cancelButton.setFont(custom_font);
             cancelButton.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT / 7));
             cancelButton.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
             temp.add(cancelButton);

@@ -30,6 +30,8 @@ public class ChooseProduct extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
     private Product result;
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
 
     public ChooseProduct(JFrame owner, String title, DateBase db) {
         super(owner, true);
@@ -48,6 +50,7 @@ public class ChooseProduct extends JDialog {
 
     private void init(JDialog frame){
         groupBox = new JComboBox<>();
+        groupBox.setFont(custom_font);
         for(GroupOfProducts g: db.getGroups().getListOfGroups()){
             groupBox.addItem(g);
         }
@@ -72,6 +75,7 @@ public class ChooseProduct extends JDialog {
             }
         });
         productBox = new JComboBox<>();
+        productBox.setFont(custom_font);
         productBox.setSelectedItem(null);
         productBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         choosePanel = new JPanel(new GridLayout(2,2));
@@ -88,6 +92,7 @@ public class ChooseProduct extends JDialog {
             choosePanel.add(temp);
         }
         okButton = new JButton("Ok");
+        okButton.setFont(custom_font);
         okButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         okButton.addActionListener(new ActionListener() {
             @Override
@@ -101,6 +106,7 @@ public class ChooseProduct extends JDialog {
             }
         });
         cancelButton = new JButton("Cancel");
+        cancelButton.setFont(custom_font);
         cancelButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         cancelButton.addActionListener(new ActionListener() {
             @Override

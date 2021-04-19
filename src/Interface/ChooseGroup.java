@@ -28,6 +28,8 @@ public class ChooseGroup extends JDialog {
     private JPanel buttonPanel;
     private JPanel chooserPanel;
     private GroupOfProducts chosenGroup;
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+
 
 
     public ChooseGroup(JFrame owner, String title, DateBase db) {
@@ -47,12 +49,14 @@ public class ChooseGroup extends JDialog {
 
     private void init(JDialog frame){
         groupBox = new JComboBox<>();
+        groupBox.setFont(custom_font);
         for(GroupOfProducts g: db.getGroups().getListOfGroups()){
             groupBox.addItem(g);
         }
         groupBox.setSelectedItem(null);
         groupBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         okButton = new JButton("Ok");
+        okButton.setFont(custom_font);
         okButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         okButton.addActionListener(new ActionListener() {
             @Override
@@ -67,6 +71,7 @@ public class ChooseGroup extends JDialog {
             }
         });
         cancelButton = new JButton("Cancel");
+        cancelButton.setFont(custom_font);
         cancelButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/6));
         cancelButton.addActionListener(new ActionListener() {
             @Override
