@@ -182,17 +182,13 @@ public class DataWindow extends JFrame {
         if (infoTextArea == null) {
             infoTextArea = new JTextArea("");
             infoTextArea.setFont(custom_font);
-            infoTextArea.setPreferredSize(new Dimension(7 * WIDTH / 24, 6 * HEIGHT / 8));
             infoTextArea.setEditable(false);
-            infoTextArea.setWrapStyleWord(true);
-            infoTextArea.setLineWrap(true);
-            infoTextArea.setFocusable(false);
+            infoTextArea.setFocusable(true);
         }
         if (productList == null) {
             productModel = new DefaultListModel<>();
             productList = new JList<>(productModel);
             productList.setFont(custom_font);
-            //productList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             productList.addListSelectionListener(e -> {
                 Product p = productList.getSelectedValue();
@@ -214,7 +210,6 @@ public class DataWindow extends JFrame {
             groupModel = new DefaultListModel<>();
             groupList = new JList<>(groupModel);
             groupList.setFont(custom_font);
-            //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
                 groupModel.addElement(g);
@@ -243,6 +238,7 @@ public class DataWindow extends JFrame {
         }
         if (infoPanel == null) {
             infoPanel = new JPanel();
+            JScrollPane infoTextAreaScroll = new JScrollPane(infoTextArea);
             infoPanel.setFont(custom_font);
             GridLayout layout = new GridLayout(1, 3);
             layout.setHgap(5);
@@ -250,7 +246,7 @@ public class DataWindow extends JFrame {
             infoPanel.setLayout(layout);
             infoPanel.add(groupScroll);
             infoPanel.add(productScroll);
-            infoPanel.add(infoTextArea);
+            infoPanel.add(infoTextAreaScroll);
         }
         if (addButton == null) {
             addButton = new JButton("Add");

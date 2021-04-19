@@ -56,6 +56,7 @@ public class ChooseProduct extends JDialog {
         }
         groupBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         groupBox.setSelectedItem(null);
+        groupBox.setMaximumRowCount(5);
         groupBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +78,7 @@ public class ChooseProduct extends JDialog {
         productBox = new JComboBox<>();
         productBox.setFont(custom_font);
         productBox.setSelectedItem(null);
+        productBox.setMaximumRowCount(5);
         productBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         choosePanel = new JPanel(new GridLayout(2,2));
         {

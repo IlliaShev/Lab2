@@ -54,6 +54,7 @@ public class ChooseGroup extends JDialog {
             groupBox.addItem(g);
         }
         groupBox.setSelectedItem(null);
+        groupBox.setMaximumRowCount(5);
         groupBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         okButton = new JButton("Ok");
         okButton.setFont(custom_font);

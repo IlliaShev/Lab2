@@ -98,7 +98,7 @@ public class ChangeValueWindow extends JDialog {
             }
             groupBox.setSelectedItem(null);
             groupBox.setEditable(false);
-            groupBox.setAutoscrolls(true);
+            groupBox.setMaximumRowCount(5);
             groupBox.setFocusable(false);
             groupBox.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 7));
             groupBox.addActionListener(e -> {
@@ -120,7 +120,7 @@ public class ChangeValueWindow extends JDialog {
             productBox.setFont(custom_font);
             productBox.setEditable(false);
             productBox.setFocusable(false);
-            productBox.setAutoscrolls(true);
+            productBox.setMaximumRowCount(5);
             productBox.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 7));
             choosePanel.add(productBox);
         }
