@@ -42,6 +42,7 @@ public class Product {
         this.producer = producer;
         this.description = description;
         this.price = price;
+        this.price = (double)((int)(price*100))/100;
     }
 
     /**
