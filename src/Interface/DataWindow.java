@@ -118,7 +118,11 @@ public class DataWindow extends JFrame {
         BorderLayout layout = new BorderLayout();
         layout.setVgap(5);
         setLayout(layout);
-        add(searchField, BorderLayout.NORTH);
+        {
+            JPanel temp = new JPanel();
+            temp.add(searchField);
+            add(temp, BorderLayout.NORTH);
+        }
         add(infoPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -131,9 +135,9 @@ public class DataWindow extends JFrame {
     private void init(JFrame frame) {
         if (searchField == null) {
             searchField = new JTextField("Search");
-            searchField.setPreferredSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
             searchField.setSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
             searchField.setFont(custom_font);
+            searchField.setPreferredSize(new Dimension( 19*WIDTH/20 , HEIGHT / 8));
             searchField.addFocusListener(new FocusListener() {
                 private boolean isUntouched = true;
 
@@ -372,6 +376,13 @@ public class DataWindow extends JFrame {
                         db.getGroups().addGroup(setter.getResult());
                         refreshGroupList();
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.setFont(custom_font);
@@ -391,7 +402,13 @@ public class DataWindow extends JFrame {
                             refreshGroupList();
                         }
                     }
-                //    System.out.println(chooser.getChosenGroup());
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.setFont(custom_font);
@@ -403,6 +420,12 @@ public class DataWindow extends JFrame {
                     ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для видалення", db);
                     chooser.setVisible(true);
                     db.getGroups().deleteGroup(chooser.getChosenGroup());
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
                     refreshGroupList();
                 });
                 group.add(add);
@@ -430,6 +453,13 @@ public class DataWindow extends JFrame {
                             refreshGroupList();
                         }
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.setFont(custom_font);
@@ -451,6 +481,13 @@ public class DataWindow extends JFrame {
                             p.setPrice(setter.getResult().getPrice());
                         }
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.setFont(custom_font);
@@ -464,6 +501,13 @@ public class DataWindow extends JFrame {
                     if(chooser.getResult()!=null){
                         chooser.getResult().getGroup().deleteProduct(chooser.getResult());
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 product.add(add);
                 product.add(editItem);
@@ -476,12 +520,15 @@ public class DataWindow extends JFrame {
             {
                 JMenuItem infoGroup = new JMenuItem("Group");
                 infoGroup.setFont(custom_font);
-                infoGroup.addActionListener(e -> {
-                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
-                    chooser.setVisible(true);
-                    if(chooser.getChosenGroup()!=null){
-                        InfoWindow info1 = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
-                        info1.setVisible(true);
+                infoGroup.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
+                        chooser.setVisible(true);
+                        if(chooser.getChosenGroup()!=null){
+                            InfoWindow info = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
+                            info.setVisible(true);
+                        }
                     }
                 });
                 JMenuItem infoStock = new JMenuItem("Stock");
@@ -489,7 +536,7 @@ public class DataWindow extends JFrame {
                 infoStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllInfo());
+                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllProducts());
                         info.setVisible(true);
                     }
                 });
