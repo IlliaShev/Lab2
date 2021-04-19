@@ -35,7 +35,9 @@ public class ChooseGroup extends JDialog {
         this.db = db;
         setTitle(title);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setBounds((screenSize.width-WIDTH)/2, (screenSize.height - HEIGHT)/2,WIDTH, HEIGHT);
         setResizable(false);
         init(this);
         setLayout(new BorderLayout());

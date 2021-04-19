@@ -67,7 +67,9 @@ public class ChangeValueWindow extends JDialog {
             setTitle("Додати товар на склад");
         else
             setTitle("Списати товар зі складу");
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setBounds((screenSize.width-WIDTH)/2, (screenSize.height - HEIGHT)/2,WIDTH, HEIGHT);
         setResizable(false);
         init(this);
         setLayout(new BorderLayout());

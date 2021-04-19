@@ -105,7 +105,9 @@ public class DataWindow extends JFrame {
         this.db = db;
         setTitle("DataBase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setBounds((screenSize.width-WIDTH)/2, (screenSize.height - HEIGHT)/2,WIDTH, HEIGHT);
         setResizable(false);
         init(this);
         initMenuBar(this);

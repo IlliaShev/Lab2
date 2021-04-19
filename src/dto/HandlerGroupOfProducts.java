@@ -27,12 +27,13 @@ public class HandlerGroupOfProducts {
      *
      * @param group - new group
      */
-    public void addGroup(GroupOfProducts group) {
+    public boolean addGroup(GroupOfProducts group) {
         for (GroupOfProducts group1 : groups) {
             if (group.getNameOfGroup().equals(group1.getNameOfGroup()))
-                return;
+                return false;
         }
         groups.add(group);
+        return true;
     }
 
     /**
