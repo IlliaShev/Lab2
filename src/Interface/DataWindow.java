@@ -253,6 +253,10 @@ public class DataWindow extends JFrame {
             addButton.setFont(custom_font);
             addButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
             addButton.addActionListener(e -> {
+                if(db.getGroups().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "There is no products in stock");
+                    return;
+                }
                 ChangeValueWindow cvw = new ChangeValueWindow(frame, db, true);
                 cvw.setVisible(true);
                 groupList.clearSelection();
@@ -264,6 +268,10 @@ public class DataWindow extends JFrame {
             removeButton.setFont(custom_font);
             removeButton.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 10));
             removeButton.addActionListener(e -> {
+                if(db.getGroups().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "There is no products in stock");
+                    return;
+                }
                 ChangeValueWindow cvw = new ChangeValueWindow(frame, db, false);
                 cvw.setVisible(true);
                 groupList.clearSelection();
@@ -461,8 +469,8 @@ public class DataWindow extends JFrame {
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.setFont(custom_font);
                 editItem.addActionListener(e -> {
-                    if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
+                    if(db.getGroups().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "There is no products in stock");
                         return;
                     }
                     ChooseProduct chooser = new ChooseProduct(frame, "Edit product", db);
@@ -489,8 +497,8 @@ public class DataWindow extends JFrame {
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.setFont(custom_font);
                 remove.addActionListener(e -> {
-                    if(db.getGroups().getListOfGroups().size()==0){
-                        JOptionPane.showMessageDialog(null, "There is no group of products in stock");
+                    if(db.getGroups().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "There is no products in stock");
                         return;
                     }
                     ChooseProduct chooser = new ChooseProduct(frame, "Remove product", db);
@@ -520,6 +528,10 @@ public class DataWindow extends JFrame {
                 infoGroup.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if(db.getGroups().getListOfGroups().size()==0){
+                            JOptionPane.showMessageDialog(null, "There is no group of products in stock");
+                            return;
+                        }
                         ChooseGroup chooser = new ChooseGroup(frame, "Info about group", db);
                         chooser.setVisible(true);
                         if(chooser.getChosenGroup()!=null){
@@ -533,6 +545,10 @@ public class DataWindow extends JFrame {
                 infoStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if(db.getGroups().isEmpty()){
+                            JOptionPane.showMessageDialog(null, "There is no products in stock");
+                            return;
+                        }
                         InfoWindow info = new InfoWindow("Stock info", db.getGroups().getAllProducts());
                         info.setVisible(true);
                     }
