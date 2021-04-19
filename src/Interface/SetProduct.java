@@ -162,7 +162,7 @@ public class SetProduct extends JDialog {
     private static boolean isCorrectName(String name){
         if(name == null||name.equals("")) return false;
         for(Character c: name.toCharArray()){
-            if(!(Character.isLetter(c)||c==' '||c=='_'||c=='\'')){
+            if(!(Character.isLetter(c)||c==' '||c=='_'||c=='\''||c=='`')){
                 return false;
             }
         }

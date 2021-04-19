@@ -355,6 +355,10 @@ public class DataWindow extends JFrame {
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.addActionListener(e -> {
+                    if(db.getGroups().getListOfGroups().size()==0){
+                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        return;
+                    }
                     ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для редагування", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
@@ -370,6 +374,10 @@ public class DataWindow extends JFrame {
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
+                    if(db.getGroups().getListOfGroups().size()==0){
+                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        return;
+                    }
                     ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для видалення", db);
                     chooser.setVisible(true);
                     db.getGroups().deleteGroup(chooser.getChosenGroup());
@@ -384,6 +392,10 @@ public class DataWindow extends JFrame {
                 JMenu product = new JMenu("Product");
                 JMenuItem add = new JMenuItem("Add");
                 add.addActionListener(e -> {
+                    if(db.getGroups().getListOfGroups().size()==0){
+                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        return;
+                    }
                     ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для додавання", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
@@ -397,6 +409,10 @@ public class DataWindow extends JFrame {
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.addActionListener(e -> {
+                    if(db.getGroups().getListOfGroups().size()==0){
+                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        return;
+                    }
                     ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для редагування", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
@@ -413,6 +429,10 @@ public class DataWindow extends JFrame {
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
+                    if(db.getGroups().getListOfGroups().size()==0){
+                        JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
+                        return;
+                    }
                     ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для видалення", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
