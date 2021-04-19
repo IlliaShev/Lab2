@@ -151,6 +151,9 @@ public class GroupOfProducts {
         products.sort(Comparator.comparing(Product::getName));
         result.append("Name: ").append(nameOfGroup).append("\n");
         result.append("Description: ").append(description).append("\n").append("Products:\n");
+        if(products.size() == 0){
+            result.append("There is no existing products in this group\n");
+        }
         double totalValue = 0;
         for (Product product : products) {
             int value = this.products.get(product);

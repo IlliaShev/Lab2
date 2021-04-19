@@ -102,7 +102,7 @@ public class HandlerGroupOfProducts {
     public String getAllInfo() {
         List<GroupOfProducts> groupsOfProducts = groups;
         if (groups.size() == 0)
-            return "";
+            return "There is no existing group!!!";
         groupsOfProducts.sort(Comparator.comparing(GroupOfProducts::getNameOfGroup));
         StringBuilder result = new StringBuilder();
         for (GroupOfProducts group : groupsOfProducts) {
@@ -124,15 +124,29 @@ public class HandlerGroupOfProducts {
      */
     public String getAllProducts() {
         StringBuilder result = new StringBuilder();
-        List<Product> products = new LinkedList<>();
-        for (GroupOfProducts group : groups) {
-            products.addAll(group.getListOfProducts());
+        if(isEmpty()){
+            return "There is no existing products in group";
         }
+        List<Product> products = getProducts();
         products.sort(Comparator.comparing(Product::getName));
         for (Product product : products) {
             result.append("Product name: ").append(product.getName()).append("; Value: ").append(product.getValue()).append("\n");
         }
         return result.substring(0, result.length() - 1);
+    }
+
+    public List<Product> getProducts(){
+        List<Product> products = new LinkedList<>();
+        for (GroupOfProducts group : groups) {
+            products.addAll(group.getListOfProducts());
+        }
+        return products;
+    }
+
+    public boolean isEmpty(){
+        if(getProducts().size() == 0)
+            return true;
+        return false;
     }
 
 }
