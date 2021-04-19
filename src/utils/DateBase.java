@@ -79,7 +79,6 @@ public class DateBase {
 
     }
 
-
     /**
      * Getter HandlerGroupOfProducts
      *

@@ -103,7 +103,7 @@ public class DataWindow extends JFrame {
      */
     public DataWindow(DateBase db) {
         this.db = db;
-        setTitle("DataBase");
+        setTitle("Автоматизоване робоче місце");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
