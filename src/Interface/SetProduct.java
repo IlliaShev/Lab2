@@ -101,13 +101,29 @@ public class SetProduct extends JDialog {
 
         }
         setPanel = new JPanel(new GridLayout(4,2));
-        setPanel.add(new JLabel("Name", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Name", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(nameField);
-        setPanel.add(new JLabel("Description", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Description", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(descriptionField);
-        setPanel.add(new JLabel("Producer", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Producer", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(producerField);
-        setPanel.add(new JLabel("Price", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Price", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(priceField);
         okButton = new JButton("Ok");
         okButton.setFont(custom_font);
