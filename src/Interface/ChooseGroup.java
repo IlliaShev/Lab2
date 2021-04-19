@@ -28,7 +28,7 @@ public class ChooseGroup extends JDialog {
     private JPanel buttonPanel;
     private JPanel chooserPanel;
     private GroupOfProducts chosenGroup;
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 14);
 
 
 
@@ -81,7 +81,11 @@ public class ChooseGroup extends JDialog {
             }
         });
         chooserPanel = new JPanel(new GridLayout(1, 2));
-        chooserPanel.add(new JLabel("Group", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Group", JLabel.CENTER);
+            temp.setFont(custom_font);
+            chooserPanel.add(temp);
+        }
         {
             JPanel temp = new JPanel(new GridBagLayout());
             temp.add(groupBox);

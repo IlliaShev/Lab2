@@ -30,7 +30,7 @@ public class ChooseProduct extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
     private Product result;
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 14);
 
 
     public ChooseProduct(JFrame owner, String title, DateBase db) {
@@ -79,16 +79,27 @@ public class ChooseProduct extends JDialog {
         productBox.setSelectedItem(null);
         productBox.setPreferredSize(new Dimension((int) (WIDTH/2.2), HEIGHT/5));
         choosePanel = new JPanel(new GridLayout(2,2));
-        choosePanel.add(new JLabel("Group", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Group", JLabel.CENTER);
+            temp.setFont(custom_font);
+            choosePanel.add(temp);
+        }
         {
             JPanel temp = new JPanel(new GridBagLayout());
             temp.add(groupBox);
+            temp.setFont(custom_font);
             choosePanel.add(temp);
         }
-        choosePanel.add(new JLabel("Product", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Product", JLabel.CENTER);
+            temp.setFont(custom_font);
+            choosePanel.add(temp);
+        }
+        //choosePanel.add(new JLabel("Product", JLabel.CENTER));
         {
             JPanel temp = new JPanel(new GridBagLayout());
             temp.add(productBox);
+            temp.setFont(custom_font);
             choosePanel.add(temp);
         }
         okButton = new JButton("Ok");

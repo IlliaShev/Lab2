@@ -26,7 +26,7 @@ public class SetGroup extends JDialog {
     private JButton cancelButton;
     private DateBase db;
     private GroupOfProducts result;
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 14);
 
 
     public SetGroup(JFrame owner, String title, DateBase db, GroupOfProducts group){
@@ -67,18 +67,28 @@ public class SetGroup extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if(!(nameField.getText() != null&&!nameField.getText().equals("")&&isCorrectName(nameField.getText()))){
                     nameField.setText("Name");
+                    nameField.setFont(custom_font);
                     JOptionPane.showMessageDialog(null, "Некоректне ім\'я", "Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
         descriptionField = new JTextField();
+        descriptionField.setFont(custom_font);
         if(isEditing){
             descriptionField.setText(group.getDescription());
         }
         setPanel = new JPanel(new GridLayout(2, 2));
-        setPanel.add(new JLabel("Name", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Name", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(nameField);
-        setPanel.add(new JLabel("Description", JLabel.CENTER));
+        {
+            JLabel temp = new JLabel("Description", JLabel.CENTER);
+            temp.setFont(custom_font);
+            setPanel.add(temp);
+        }
         setPanel.add(descriptionField);
         okButton = new JButton("Ok");
         okButton.setFont(custom_font);

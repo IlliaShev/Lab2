@@ -27,7 +27,7 @@ public class SetProduct extends JDialog {
     private JButton cancelButton;
     private DateBase db;
     private Product result;
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 14);
 
 
     public SetProduct(JFrame frame, String title, DateBase db, Product product) {
@@ -62,8 +62,11 @@ public class SetProduct extends JDialog {
             public void keyReleased(KeyEvent e) { }
         });
         descriptionField = new JTextField();
+        descriptionField.setFont(custom_font);
         producerField = new JTextField();
+        producerField.setFont(custom_font);
         priceField = new JTextField();
+        priceField.setFont(custom_font);
         priceField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,9 +91,14 @@ public class SetProduct extends JDialog {
         });
         if(prod!=null){
             nameField.setText(prod.getName());
+            nameField.setFont(custom_font);
             descriptionField.setText(prod.getDescription());
+            descriptionField.setFont(custom_font);
             producerField.setText(prod.getProducer());
+            producerField.setFont(custom_font);
             priceField.setText(""+prod.getPrice());
+            priceField.setFont(custom_font);
+
         }
         setPanel = new JPanel(new GridLayout(4,2));
         setPanel.add(new JLabel("Name", JLabel.CENTER));

@@ -18,7 +18,7 @@ public class InfoWindow extends JDialog {
     private JTextArea info;
     private JScrollPane infoScroll;
     private JButton okButton;
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 14);
 
 
     public InfoWindow(String title, String infoString){
