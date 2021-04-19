@@ -113,9 +113,12 @@ public class DataWindow extends JFrame {
         initMenuBar(this);
         setJMenuBar(menuBar);
         BorderLayout layout = new BorderLayout();
-        layout.setVgap(5);
         setLayout(layout);
-        add(searchField, BorderLayout.NORTH);
+        {
+            JPanel temp = new JPanel();
+            temp.add(searchField);
+            add(temp, BorderLayout.NORTH);
+        }
         add(infoPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -128,8 +131,7 @@ public class DataWindow extends JFrame {
     private void init(JFrame frame) {
         if (searchField == null) {
             searchField = new JTextField("Search");
-            searchField.setPreferredSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
-            searchField.setSize(new Dimension(7 * WIDTH / 8, HEIGHT / 8));
+            searchField.setPreferredSize(new Dimension( 19*WIDTH/20 , HEIGHT / 8));
             searchField.setFont(new Font("Calibri", Font.PLAIN, 20));
             searchField.addFocusListener(new FocusListener() {
                 private boolean isUntouched = true;
@@ -182,7 +184,6 @@ public class DataWindow extends JFrame {
         if (productList == null) {
             productModel = new DefaultListModel<>();
             productList = new JList<>(productModel);
-            //productList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             productList.addListSelectionListener(e -> {
                 Product p = productList.getSelectedValue();
@@ -203,7 +204,6 @@ public class DataWindow extends JFrame {
         if (groupList == null) {
             groupModel = new DefaultListModel<>();
             groupList = new JList<>(groupModel);
-            //   groupList.setPreferredSize(new Dimension(7*WIDTH/24, 5*HEIGHT/8));
             groupList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
                 groupModel.addElement(g);
