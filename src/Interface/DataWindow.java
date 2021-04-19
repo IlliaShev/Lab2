@@ -354,6 +354,13 @@ public class DataWindow extends JFrame {
                         db.getGroups().addGroup(setter.getResult());
                         refreshGroupList();
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.addActionListener(e -> {
@@ -372,7 +379,13 @@ public class DataWindow extends JFrame {
                             refreshGroupList();
                         }
                     }
-                //    System.out.println(chooser.getChosenGroup());
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
@@ -383,6 +396,12 @@ public class DataWindow extends JFrame {
                     ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для видалення", db);
                     chooser.setVisible(true);
                     db.getGroups().deleteGroup(chooser.getChosenGroup());
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
                     refreshGroupList();
                 });
                 group.add(add);
@@ -408,6 +427,13 @@ public class DataWindow extends JFrame {
                             refreshGroupList();
                         }
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
                 editItem.addActionListener(e -> {
@@ -428,6 +454,13 @@ public class DataWindow extends JFrame {
                             p.setPrice(setter.getResult().getPrice());
                         }
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
@@ -440,6 +473,13 @@ public class DataWindow extends JFrame {
                     if(chooser.getResult()!=null){
                         chooser.getResult().getGroup().deleteProduct(chooser.getResult());
                     }
+                    if(isSearching){
+                        isSearching = false;
+                        searchResults = null;
+                        searchField.setText("");
+                        groupList.grabFocus();
+                    }
+                    refreshGroupList();
                 });
                 product.add(add);
                 product.add(editItem);
@@ -465,7 +505,7 @@ public class DataWindow extends JFrame {
                 infoStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllInfo());
+                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllProducts());
                         info.setVisible(true);
                     }
                 });
