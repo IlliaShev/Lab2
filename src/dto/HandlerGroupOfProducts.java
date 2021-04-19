@@ -132,7 +132,7 @@ public class HandlerGroupOfProducts {
         }
         products.sort(Comparator.comparing(Product::getName));
         for (Product product : products) {
-            result.append("\t\tProduct name: ").append(product.getName()).append("; Value: ").append(product.getValue());
+            result.append("Product name: ").append(product.getName()).append("; Value: ").append(product.getValue()).append("\n");
         }
         return result.substring(0, result.length() - 1);
     }
