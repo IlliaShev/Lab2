@@ -97,7 +97,7 @@ public class DataWindow extends JFrame {
      */
     private JMenuBar menuBar;
 
-    private final Font custom_font  = new Font("Courier New", Font.BOLD, 20);
+    private final Font custom_font  = new Font("Courier New", Font.BOLD, 16);
 
     /**
      * Constructor with DateBase param
@@ -125,7 +125,8 @@ public class DataWindow extends JFrame {
         }
         add(infoPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-
+        revalidate();
+        setVisible(true);
     }
 
     /**
@@ -547,15 +548,4 @@ public class DataWindow extends JFrame {
         }
     }
 
-
-    /**
-     * Start Program
-     *
-     * @param args - arguments cl
-     */
-    public static void main(String[] args) {
-        DateBase test = new DateBase();
-        DataWindow ui = new DataWindow(test);
-        ui.setVisible(true);
-    }
 }
