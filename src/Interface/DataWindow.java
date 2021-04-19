@@ -371,7 +371,7 @@ public class DataWindow extends JFrame {
                 JMenuItem add = new JMenuItem("Add");
                 add.setFont(custom_font);
                 add.addActionListener(e -> {
-                    SetGroup setter = new SetGroup(frame, "Додати группу", db, null);
+                    SetGroup setter = new SetGroup(frame, "Додати групу", db, null);
                     setter.setVisible(true);
                     if(setter.getResult()!=null){
                         db.getGroups().addGroup(setter.getResult());
@@ -392,10 +392,10 @@ public class DataWindow extends JFrame {
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для редагування", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Редагувати групу", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
-                        SetGroup setter = new SetGroup(frame, "Редагувати группу", db, chooser.getChosenGroup());
+                        SetGroup setter = new SetGroup(frame, "Редагувати групу", db, chooser.getChosenGroup());
                         setter.setVisible(true);
                         if(setter.getResult()!=null){
                             chooser.getChosenGroup().setNameOfGroup(setter.getResult().getNameOfGroup());
@@ -418,7 +418,7 @@ public class DataWindow extends JFrame {
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для видалення", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Видалити групу", db);
                     chooser.setVisible(true);
                     db.getGroups().deleteGroup(chooser.getChosenGroup());
                     if(isSearching){
@@ -444,7 +444,7 @@ public class DataWindow extends JFrame {
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
                         return;
                     }
-                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для додавання", db);
+                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть групу", db);
                     chooser.setVisible(true);
                     if(chooser.getChosenGroup()!=null){
                         SetProduct setter = new SetProduct(frame, "Додати продукт", db, null);
@@ -469,7 +469,7 @@ public class DataWindow extends JFrame {
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
                         return;
                     }
-                    ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для редагування", db);
+                    ChooseProduct chooser = new ChooseProduct(frame, "Редагувати продукт", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
                         SetProduct setter = new SetProduct(frame, "Редагувати продукт", db, chooser.getResult());
@@ -497,7 +497,7 @@ public class DataWindow extends JFrame {
                         JOptionPane.showMessageDialog(null, "На складі жодної групи товарів");
                         return;
                     }
-                    ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для видалення", db);
+                    ChooseProduct chooser = new ChooseProduct(frame, "Видалити продукт", db);
                     chooser.setVisible(true);
                     if(chooser.getResult()!=null){
                         chooser.getResult().getGroup().deleteProduct(chooser.getResult());
@@ -524,7 +524,7 @@ public class DataWindow extends JFrame {
                 infoGroup.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
+                        ChooseGroup chooser = new ChooseGroup(frame, "Перегляд групи", db);
                         chooser.setVisible(true);
                         if(chooser.getChosenGroup()!=null){
                             InfoWindow info = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
