@@ -52,12 +52,10 @@ public class HandlerGroupOfProducts {
      * @return list of products
      */
     public List<Product> findProduct(String pat) {
-        Pattern pattern = Pattern.compile(pat);
         List<Product> resList = new LinkedList<>();
         for (GroupOfProducts group : groups) {
             for (Product product : group.getListOfProducts()) {
-                Matcher mch = pattern.matcher(product.getName());
-                if (mch.matches() || matcherStrings(product.getName(), pat))
+                if (matcherStrings(product.getName(), pat))
                     resList.add(product);
 
             }
