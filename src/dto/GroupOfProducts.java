@@ -155,7 +155,7 @@ public class GroupOfProducts {
         for (Product product : products) {
             int value = this.products.get(product);
             totalValue += product.getPrice() * value;
-            result.append("\t\t").append(product.getName()).append(": ").append(product.getPrice()).append("$; ").append("Value ").append(value).append("\n");
+            result.append("\t").append(product.getName()).append(": ").append(product.getPrice()).append("$; ").append("Value ").append(value).append("\n");
         }
         result.append("Total cost ").append(totalValue).append(".");
         return result.toString();

@@ -113,7 +113,7 @@ public class HandlerGroupOfProducts {
             List<Product> products = group.getListOfProducts();
             products.sort(Comparator.comparing(Product::getName));
             for (Product product : products) {
-                result.append("\t\tProduct name: ").append(product.getName()).append('\n');
+                result.append("\tProduct name: ").append(product.getName()).append('\n');
             }
         }
         return result.substring(0, result.length() - 1);
