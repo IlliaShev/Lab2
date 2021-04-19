@@ -7,10 +7,7 @@ import utils.DateBase;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -317,9 +314,6 @@ public class DataWindow extends JFrame {
             JMenu file = new JMenu("File");
             menuBar.add(file);
             {
-                JMenuItem open = new JMenuItem("Open");
-                open.addActionListener(e -> {
-                });
                 JMenuItem save = new JMenuItem("Save");
                 save.addActionListener(e -> {
                     fileChooser = new JFileChooser(".");
@@ -328,24 +322,23 @@ public class DataWindow extends JFrame {
                     if (response == JFileChooser.APPROVE_OPTION) {
                         try {
                             File fileToSave = fileChooser.getSelectedFile();
+                            if(fileToSave.isDirectory()){
+                                fileToSave = new File(fileToSave.getAbsolutePath()+"\\out.txt");
+                            }
                             BufferedWriter bw = new BufferedWriter(new FileWriter(fileToSave));
                             bw.write(db.getGroups().getAllInfo());
-                            System.out.println(db.getGroups().getAllInfo());
                             bw.close();
+                        } catch(FileNotFoundException ex){
+                            JOptionPane.showMessageDialog(frame, "Оберіть корректний файл", "Error", JOptionPane.ERROR_MESSAGE);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
 
                 });
-                JMenuItem close = new JMenuItem("Close");
-                close.addActionListener(e -> {
-                });
                 JMenuItem exit = new JMenuItem("Exit");
                 exit.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
-                file.add(open);
                 file.add(save);
-                file.add(close);
                 file.add(exit);
             }
             JMenu edit = new JMenu("Edit");
@@ -353,12 +346,34 @@ public class DataWindow extends JFrame {
                 JMenu group = new JMenu("Group");
                 JMenuItem add = new JMenuItem("Add");
                 add.addActionListener(e -> {
+                    SetGroup setter = new SetGroup(frame, "Додати группу", db, null);
+                    setter.setVisible(true);
+                    if(setter.getResult()!=null){
+                        db.getGroups().addGroup(setter.getResult());
+                        refreshGroupList();
+                    }
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
-                edit.addActionListener(e -> {
+                editItem.addActionListener(e -> {
+                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для редагування", db);
+                    chooser.setVisible(true);
+                    if(chooser.getChosenGroup()!=null){
+                        SetGroup setter = new SetGroup(frame, "Редагувати группу", db, chooser.getChosenGroup());
+                        setter.setVisible(true);
+                        if(setter.getResult()!=null){
+                            chooser.getChosenGroup().setNameOfGroup(setter.getResult().getNameOfGroup());
+                            chooser.getChosenGroup().setDescription(setter.getResult().getDescription());
+                            refreshGroupList();
+                        }
+                    }
+                //    System.out.println(chooser.getChosenGroup());
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
+                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для видалення", db);
+                    chooser.setVisible(true);
+                    db.getGroups().deleteGroup(chooser.getChosenGroup());
+                    refreshGroupList();
                 });
                 group.add(add);
                 group.add(editItem);
@@ -369,12 +384,40 @@ public class DataWindow extends JFrame {
                 JMenu product = new JMenu("Product");
                 JMenuItem add = new JMenuItem("Add");
                 add.addActionListener(e -> {
+                    ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для додавання", db);
+                    chooser.setVisible(true);
+                    if(chooser.getChosenGroup()!=null){
+                        SetProduct setter = new SetProduct(frame, "Додати продукт", db, null);
+                        setter.setVisible(true);
+                        if(setter.getResult()!=null){
+                            chooser.getChosenGroup().addProduct(setter.getResult());
+                            refreshGroupList();
+                        }
+                    }
                 });
                 JMenuItem editItem = new JMenuItem("Edit");
-                edit.addActionListener(e -> {
+                editItem.addActionListener(e -> {
+                    ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для редагування", db);
+                    chooser.setVisible(true);
+                    if(chooser.getResult()!=null){
+                        SetProduct setter = new SetProduct(frame, "Редагувати продукт", db, chooser.getResult());
+                        setter.setVisible(true);
+                        if(setter.getResult()!=null){
+                            Product p = chooser.getResult();
+                            p.setName(setter.getResult().getName());
+                            p.setDescription(setter.getResult().getDescription());
+                            p.setProducer(setter.getResult().getProducer());
+                            p.setPrice(setter.getResult().getPrice());
+                        }
+                    }
                 });
                 JMenuItem remove = new JMenuItem("Remove");
                 remove.addActionListener(e -> {
+                    ChooseProduct chooser = new ChooseProduct(frame, "Оберіть продукт для видалення", db);
+                    chooser.setVisible(true);
+                    if(chooser.getResult()!=null){
+                        chooser.getResult().getGroup().deleteProduct(chooser.getResult());
+                    }
                 });
                 product.add(add);
                 product.add(editItem);
@@ -382,9 +425,31 @@ public class DataWindow extends JFrame {
                 edit.add(product);
             }
             menuBar.add(edit);
-            JMenuItem info = new JMenuItem("Info");
-            info.addActionListener(e -> {
-            });
+            JMenu info = new JMenu("Info");
+            {
+                JMenuItem infoGroup = new JMenuItem("Group");
+                infoGroup.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ChooseGroup chooser = new ChooseGroup(frame, "Оберіть группу для перегляду", db);
+                        chooser.setVisible(true);
+                        if(chooser.getChosenGroup()!=null){
+                            InfoWindow info = new InfoWindow("Інформація про группу", chooser.getChosenGroup().getGroupInfo());
+                            info.setVisible(true);
+                        }
+                    }
+                });
+                JMenuItem infoStock = new JMenuItem("Stock");
+                infoStock.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        InfoWindow info = new InfoWindow("Інформація про склад", db.getGroups().getAllInfo());
+                        info.setVisible(true);
+                    }
+                });
+                info.add(infoGroup);
+                info.add(infoStock);
+            }
             menuBar.add(info);
         }
     }

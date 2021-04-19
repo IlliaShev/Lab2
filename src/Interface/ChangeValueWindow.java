@@ -84,7 +84,7 @@ public class ChangeValueWindow extends JDialog {
     private void init(JDialog frame) {
         choosePanel = new JPanel(new GridLayout(3, 2));
         {
-            choosePanel.add(new JLabel("Group"));
+            choosePanel.add(new JLabel("Group", JLabel.CENTER));
             groupBox = new JComboBox<>();
             for (GroupOfProducts g : db.getGroups().getListOfGroups()) {
                 groupBox.addItem(g);
@@ -108,7 +108,7 @@ public class ChangeValueWindow extends JDialog {
             choosePanel.add(groupBox);
         }
         {
-            choosePanel.add(new JLabel("Product"));
+            choosePanel.add(new JLabel("Product", JLabel.CENTER));
             productBox = new JComboBox<>();
             productBox.setEditable(false);
             productBox.setFocusable(false);
@@ -116,7 +116,7 @@ public class ChangeValueWindow extends JDialog {
             productBox.setPreferredSize(new Dimension(WIDTH / 5, HEIGHT / 7));
             choosePanel.add(productBox);
         }
-        choosePanel.add(new JLabel("Amount"));
+        choosePanel.add(new JLabel("Amount", JLabel.CENTER));
         amountField = new JTextField();
         amountField.setText("0");
         amountField.addKeyListener(new KeyListener() {
